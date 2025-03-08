@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Welcome to your Dashboard</h1>
+  <p>Here, you can manage your saved data:</p>
+
+  <button onclick="logout()">Logout</button>
+  
+  <div id="save-data">
+    <h2>Save Roster</h2>
+    <table id="rosterTable">
+      <!-- Table rows will be added dynamically -->
+    </table>
+    <button onclick="addMember()">Add Member</button>
+  </div>
+
+  <div id="event-management">
+    <h2>Manage Events</h2>
+    <ul id="eventList"></ul>
+    <button onclick="assignEvent()">Assign Event</button>
+  </div>
+
+  <div id="schedule-management">
+    <h2>Manage Schedule</h2>
+    <ul id="scheduleList"></ul>
+    <button onclick="addScheduleItem()">Add Schedule Item</button>
+  </div>
+
+  <div id="resource-management">
+    <h2>Manage Resources</h2>
+    <ul id="resourceList"></ul>
+    <button onclick="addResource()">Add Resource</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
