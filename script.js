@@ -1,3 +1,83 @@
+// Firebase configuration (replace with your actual Firebase credentials)
+const firebaseConfig = {
+  apiKey: "AIzaSyAjeMw1Qns3GncKrwFU1ZKJJklVCcUTovo",
+  authDomain: "sjprep-science-olympiad.firebaseapp.com",
+  projectId: "sjprep-science-olympiad",
+  storageBucket: "sjprep-science-olympiad.firebasestorage.app",
+  messagingSenderId: "292163575143",
+  appId: "1:292163575143:web:494033b69347065cd963c2"
+};
+
+const app = firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// Login functionality
+document.getElementById('login-form').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+
+  try {
+    await auth.signInWithEmailAndPassword(email, password);
+    window.location.href = 'dashboard.html'; // Redirect to dashboard after login
+  } catch (error) {
+    alert('Login failed: ' + error.message);
+  }
+});
+
+// Save data functionality
+document.getElementById('save-form').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const dataInput = document.getElementById('data-input').value;
+
+  try {
+    const user = auth.currentUser;
+    if (user) {
+      await db.collection('users').doc(user.uid).collection('data').add({
+        data: dataInput,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      document.getElementById('data-input').value = '';  // Clear input field
+      loadData(); // Reload saved data
+    }
+  } catch (error) {
+    alert('Error saving data: ' + error.message);
+  }
+});
+
+// Load saved data
+async function loadData() {
+  const user = auth.currentUser;
+  if (user) {
+    const snapshot = await db.collection('users').doc(user.uid).collection('data').get();
+    const dataList = document.getElementById('saved-data');
+    dataList.innerHTML = '';  // Clear current list
+    snapshot.forEach(doc => {
+      const li = document.createElement('li');
+      li.textContent = doc.data().data;
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+      deleteButton.onclick = () => deleteData(doc.id);
+      li.appendChild(deleteButton);
+      dataList.appendChild(li);
+    });
+  }
+}
+
+// Delete data functionality
+async function deleteData(docId) {
+  const user = auth.currentUser;
+  if (user) {
+    try {
+      await db.collection('users').doc(user.uid).collection('data').doc(docId).delete();
+      loadData(); // Reload saved data
+    } catch (error) {
+      alert('Error deleting data: ' + error.message);
+    }
+  }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     loadRoster();
     loadEvents();
@@ -57,3 +137,4 @@ function addResource() {
         document.getElementById("resourceList").appendChild(li);
     }
 }
+
