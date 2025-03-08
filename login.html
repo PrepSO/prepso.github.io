@@ -8,16 +8,11 @@
 </head>
 <body>
   <h1>Login</h1>
-  <form id="login-form">
-    <input type="text" id="email" placeholder="Email" required><br>
+  <form id="login-form" onsubmit="event.preventDefault(); login();">
+    <input type="text" id="username" placeholder="Username" required><br>
     <input type="password" id="password" placeholder="Password" required><br>
     <button type="submit">Login</button>
   </form>
-  <p>Don't have an account? <a href="#">Create an account</a></p> <!-- You can link to a registration page if needed -->
-
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
